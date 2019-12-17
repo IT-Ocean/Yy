@@ -11,8 +11,12 @@ Vue.prototype.$axios = axios;
 //vuex全局引用
 import store from './store'
 Vue.use(store)
-//引入jq
-import $ from 'jquery'
+//解决报错的vue-router报错的问题
+import VueRouter from 'vue-router';
+const routerPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error=> error)
+}
 new Vue({
   el: '#app',
   router,
